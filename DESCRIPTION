@@ -1,0 +1,24 @@
+Package: pnp.dominoes
+Type: Package
+Title: Print-and-Play Dominoes
+Version: 0.0.0-1
+Authors@R: c(person("Trevor L.", "Davis", role=c("aut", "cre"),
+             email="trevor.l.davis@gmail.com",
+             comment = c(ORCID = "0000-0001-6341-4639")))
+URL: https://github.com/trevorld/pnp.dominoes, https://trevorldavis.com/R/pnp.dominoes/dev/
+BugReports: https://github.com/trevorld/pnp.dominoes/issues
+Description: Generates print-and-play layouts of (up to double-18) dominoes
+    for letter and A4 paper.
+Depends:
+	R (>= 4.2)
+Imports:
+	piecepackr (>= 1.16.2-4),
+	xmpdf
+Suggests:
+	testthat (>= 3.0.0)
+Remotes: trevorld/piecepackr
+License: MIT + file LICENSE
+Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

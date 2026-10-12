@@ -1,0 +1,14 @@
+LICENSE.md
+README.html
+Rakefile
+codecov.yml
+_pkgdown.yml
+^pkgdown$
+^\.air.toml$
+^\.claude$
+^\.editorconfig$
+^\.git$
+^\.github$
+^\.pre-commit-config.yaml$
+^data-raw$
+^tmp$
