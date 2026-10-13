@@ -12,11 +12,18 @@ Description: Generates print-and-play layouts of (up to double-18) dominoes
 Depends:
 	R (>= 4.2)
 Imports:
+	grDevices,
+	grid,
+	grImport2,
+	marquee (>= 1.2.0),
 	piecepackr (>= 1.16.2-4),
+	ppdf,
+	rlang,
+	utils,
 	xmpdf
 Suggests:
 	testthat (>= 3.0.0)
-Remotes: trevorld/piecepackr
+Remotes: piecepackr/ppdf, trevorld/piecepackr
 License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
