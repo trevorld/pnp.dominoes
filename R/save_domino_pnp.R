@@ -1,34 +1,28 @@
 #' Save print-and-play dominoes
 #'
-#' `save_domino_pnp_12()` saves a print-and-play pdf of a double-twelve set of dominoes
-#' with three sheets of tiles:
-#' the first sheet is a double-six set,
-#' the second sheet completes a double-nine set (plus one tile from the double-twelve set),
-#' and the third sheet completes the double-twelve set.
-#' `save_domino_pnp_18()` saves a print-and-play pdf of a double-eighteen set of dominoes
-#' with six sheets of tiles:
-#' the first four sheets are a double-fifteen set,
-#' the fifth sheet completes a double-seventeen set,
-#' and the sixth sheet completes the double-eighteen set.
+#' `save_domino_pnp_12()` saves a print-and-play pdf of a double-twelve set of dominoes with three sheets of tiles.
+#' `save_domino_pnp_18()` saves a print-and-play pdf of a double-eighteen set of dominoes with six sheets of tiles.
 #'
-#' Tiles are 1" by 2" and laid out in rows of seven tiles.
-#' Adjacent tiles share a cut line and each group of tiles has a 1/8" bleed around it.
-#' Crop marks in the margins indicate the cut lines
-#' and crosshairs (in the pip color) mark the tile corners on the faces.
+#' * `save_domino_pnp_12()` saves a double-twelve set (91 tiles) on three sheets of tiles.
 #'
-#' The first page is a cover page with credits, license, and instructions
-#' followed by a deliberately blank page.
-#' The remaining odd pages are the tile faces and even pages are the tile backs:
-#' a rectangle (with bleed) in the tile background color covering the faces' crop marks.
-#' Print the odd pages on label (sticker) paper and mount them onto something thicker
-#' (e.g. chipboard or mat board) for sturdier dominoes
-#' (optionally also mounting the backs on the other side) or
-#' print double-sided (flip on the long edge) on cardstock for domino cards.
-#' The print-and-play pdf is licensed under the CC-BY-4.0 license.
-#' Four registration marks overlap the outermost top and bottom crop marks
-#' and are in the same place on the backs so that one can check that both sides line up.
-#' The registration marks are squared on the last sheet and circled on the earlier sheets
-#' (which have a different number of rows of tiles).
+#'   * The first sheet contains just a double-six set.
+#'   * The first two sheets contain a double-nine set.
+#'
+#' * `save_domino_pnp_18()` saves a double-eighteen set (190 tiles) on six sheets of tiles:
+#'
+#'   * The first four sheets are a double-fifteen set.
+#'   * The first five sheets are a double-seventeen set.
+#'
+#' * Tiles are 1" by 2" with a 1/8" bleed around each group of tiles.
+#'   Crop marks in the margins indicate the cut lines and
+#'   crosshairs (in the pip color) mark the tile corners on the faces.
+#'
+#'
+#' * The first page is a cover page with credits, license, and instructions followed by a deliberately blank page.
+#'   The remaining odd pages are the tile faces and the even pages are the tile backs.
+#'
+#' * Registration marks on both sides help check that double-sided prints line up.
+#' * The print-and-play pdfs are licensed under a permissive [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) license.
 #' @param filename Filename of the pdf to save.
 #' @param ... Must be empty.
 #' @param paper Paper size: either `"letter"` or `"a4"`.
@@ -36,13 +30,21 @@
 #' @param pip_color Tile pip (and center line) color.
 #' @return The filename invisibly.  As a side effect saves a pdf file.
 #' @examples
-#' f12 <- save_domino_pnp_12(tempfile(fileext = ".pdf"))
-#' f18 <- save_domino_pnp_18(
-#'   tempfile(fileext = ".pdf"),
-#'   paper = "a4",
-#'   background_color = "black",
-#'   pip_color = "white"
+#' f12 <- save_domino_pnp_12(
+#' 	tempfile(fileext = ".pdf"),
+#' 	paper = "a4",
+#' 	background_color = palette.colors(names = TRUE)[["blue"]],
+#' 	pip_color = "white"
 #' )
+#' f18 <- save_domino_pnp_18(tempfile(fileext = ".pdf"))
+#' if (requireNamespace("pnpmisc", quietly = TRUE)) {
+#'   grid::grid.newpage()
+#'   grid::grid.raster(pnpmisc::pdf_render_raster(f12, page = 3L, dpi = 150))
+#' }
+#' if (requireNamespace("pnpmisc", quietly = TRUE)) {
+#'   grid::grid.newpage()
+#'   grid::grid.raster(pnpmisc::pdf_render_raster(f18, page = 13L, dpi = 150))
+#' }
 #' unlink(c(f12, f18))
 #' @export
 save_domino_pnp_12 <- function(
@@ -89,7 +91,8 @@ save_domino_pnp_18 <- function(
 		title = "Double-Eighteen Dominoes",
 		set_info = c(
 			"* The 190 tiles of a double-eighteen set are provided on six sheets of 1\" by 2\" tiles.",
-			"* The first four sheets are a double-fifteen set (136 tiles)."
+			"* The first four sheets are a double-fifteen set (136 tiles).",
+			"* The first five sheets are a double-seventeen set (171 tiles)."
 		)
 	)
 }
