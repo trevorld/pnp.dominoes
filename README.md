@@ -15,24 +15,18 @@
 
 `{pnp.dominoes}` generates print-and-play pdfs of (up to double-18) dominoes for letter and A4 paper.
 
-* `save_domino_pnp_12()` saves a double-twelve set (91 tiles) on three sheets of tiles.
+* `save_domino_pnp_12()` saves a double-twelve set of dominoes (91 tiles) on three sheets of tiles.
+* `save_domino_pnp_18()` saves a double-eighteen set of dominoes (190 tiles) on six sheets of tiles.
+* Smaller sets are nested within the first sheets:
 
-  * The first sheet contains just a double-six set.
-  * The first two sheets contain a double-nine set.
-
-* `save_domino_pnp_18()` saves a double-eighteen set (190 tiles) on six sheets of tiles:
-
-  * The first four sheets are a double-fifteen set.
-  * The first five sheets are a double-seventeen set.
+  * In the double-twelve pdf the first sheet is a double-six set and the first two sheets contain a double-nine set.
+  * In the double-eighteen pdf the first four sheets are a double-fifteen set and the first five sheets are a double-seventeen set.
 
 * Tiles are 1" by 2" with a 1/8" bleed around each group of tiles.
   Crop marks in the margins indicate the cut lines and
   crosshairs (in the pip color) mark the tile corners on the faces.
-
-
 * The first page is a cover page with credits, license, and instructions followed by a deliberately blank page.
   The remaining odd pages are the tile faces and the even pages are the tile backs.
-
 * Registration marks on both sides help check that double-sided prints line up.
 * The print-and-play pdfs are licensed under a permissive [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) license.
 
@@ -51,10 +45,10 @@ remotes::install_github("trevorld/pnp.dominoes")
 ``` r
 library("pnp.dominoes")
 f12 <- save_domino_pnp_12(
-	tempfile(fileext = ".pdf"),
-	paper = "a4",
-	background_color = palette.colors(names = TRUE)[["blue"]],
-	pip_color = "white"
+  tempfile(fileext = ".pdf"),
+  paper = "a4",
+  background_color = palette.colors()[[6L]], # Okabe-Ito blue
+  pip_color = "white"
 )
 f18 <- save_domino_pnp_18(tempfile(fileext = ".pdf"))
 ```

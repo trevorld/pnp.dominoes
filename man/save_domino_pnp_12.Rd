@@ -36,20 +36,15 @@ save_domino_pnp_18(
 The filename invisibly.  As a side effect saves a pdf file.
 }
 \description{
-\code{save_domino_pnp_12()} saves a print-and-play pdf of a double-twelve set of dominoes with three sheets of tiles.
-\code{save_domino_pnp_18()} saves a print-and-play pdf of a double-eighteen set of dominoes with six sheets of tiles.
+\code{save_domino_pnp_12()} saves a print-and-play pdf of a double-twelve set of dominoes (91 tiles) on three sheets of tiles.
+\code{save_domino_pnp_18()} saves a print-and-play pdf of a double-eighteen set of dominoes (190 tiles) on six sheets of tiles.
 }
 \details{
 \itemize{
-\item \code{save_domino_pnp_12()} saves a double-twelve set (91 tiles) on three sheets of tiles.
+\item Smaller sets are nested within the first sheets:
 \itemize{
-\item The first sheet contains just a double-six set.
-\item The first two sheets contain a double-nine set.
-}
-\item \code{save_domino_pnp_18()} saves a double-eighteen set (190 tiles) on six sheets of tiles:
-\itemize{
-\item The first four sheets are a double-fifteen set.
-\item The first five sheets are a double-seventeen set.
+\item In the double-twelve pdf the first sheet is a double-six set and the first two sheets contain a double-nine set.
+\item In the double-eighteen pdf the first four sheets are a double-fifteen set and the first five sheets are a double-seventeen set.
 }
 \item Tiles are 1" by 2" with a 1/8" bleed around each group of tiles.
 Crop marks in the margins indicate the cut lines and
@@ -62,10 +57,10 @@ The remaining odd pages are the tile faces and the even pages are the tile backs
 }
 \examples{
 f12 <- save_domino_pnp_12(
-	tempfile(fileext = ".pdf"),
-	paper = "a4",
-	background_color = palette.colors(names = TRUE)[["blue"]],
-	pip_color = "white"
+  tempfile(fileext = ".pdf"),
+  paper = "a4",
+  background_color = palette.colors()[[6L]], # Okabe-Ito blue
+  pip_color = "white"
 )
 f18 <- save_domino_pnp_18(tempfile(fileext = ".pdf"))
 if (requireNamespace("pnpmisc", quietly = TRUE)) {
