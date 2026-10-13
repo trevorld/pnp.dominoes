@@ -17,12 +17,12 @@ Imports:
 	grImport2,
 	marquee (>= 1.2.0),
 	piecepackr (>= 1.16.2-4),
+	pnpmisc (>= 0.2.1),
 	ppdf,
 	rlang,
 	utils,
 	xmpdf
 Suggests:
-	pnpmisc,
 	testthat (>= 3.0.0)
 Remotes: piecepackr/ppdf, piecepackr/piecepackr, trevorld/pnpmisc
 License: MIT + file LICENSE

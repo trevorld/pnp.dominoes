@@ -63,13 +63,9 @@ f12 <- save_domino_pnp_12(
   pip_color = "white"
 )
 f18 <- save_domino_pnp_18(tempfile(fileext = ".pdf"))
-if (requireNamespace("pnpmisc", quietly = TRUE)) {
-  grid::grid.newpage()
-  grid::grid.raster(pnpmisc::pdf_render_raster(f12, page = 3L, dpi = 150))
-}
-if (requireNamespace("pnpmisc", quietly = TRUE)) {
-  grid::grid.newpage()
-  grid::grid.raster(pnpmisc::pdf_render_raster(f18, page = 13L, dpi = 150))
-}
+grid::grid.newpage()
+grid::grid.raster(pnpmisc::pdf_render_raster(f12, page = 3L, dpi = 150))
+grid::grid.newpage()
+grid::grid.raster(pnpmisc::pdf_render_raster(f18, page = 13L, dpi = 150))
 unlink(c(f12, f18))
 }

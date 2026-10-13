@@ -40,7 +40,6 @@ remotes::install_github("trevorld/pnp.dominoes")
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(fig.path = "man/figures/README-", dpi = 150, error = FALSE, fig.cap = "")
-has_pnpmisc <- requireNamespace("pnpmisc", quietly = TRUE)
 ```
 
 ```{r save}
@@ -56,11 +55,11 @@ f18 <- save_domino_pnp_18(tempfile(fileext = ".pdf"))
 
 The third page of the pdf is the faces of the first sheet of tiles (a double-six set) with crosshairs, cropmarks, and registration marks to aid in aligning the tile backs with the tile fronts.
 
-```{r double12-faces, eval = has_pnpmisc, fig.width = 8.5, fig.height = 11, fig.alt = "The faces of the first sheet of a double-twelve set of dominoes (white pips on blue tiles): a double-six set of 28 tiles laid out in four rows of seven with crop marks in the margins."}
+```{r double12-faces, fig.width = 8.5, fig.height = 11, fig.alt = "The faces of the first sheet of a double-twelve set of dominoes (white pips on blue tiles): a double-six set of 28 tiles laid out in four rows of seven with crop marks in the margins."}
 grid::grid.raster(pnpmisc::pdf_render_raster(f12, page = 3L, dpi = 150))
 ```
 
-```{r double18-faces, eval = has_pnpmisc, fig.width = 8.5, fig.height = 11, fig.alt = "The faces of the last sheet of a double-eighteen set of dominoes (black pips on white tiles): 19 domino tiles laid out in a grid with crop marks in the margins."}
+```{r double18-faces, fig.width = 8.5, fig.height = 11, fig.alt = "The faces of the last sheet of a double-eighteen set of dominoes (black pips on white tiles): 19 domino tiles laid out in a grid with crop marks in the margins."}
 grid::grid.raster(pnpmisc::pdf_render_raster(f18, page = 13L, dpi = 150))
 ```
 
