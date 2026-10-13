@@ -1,0 +1,68 @@
+# pnp.dominoes
+
+[![R-CMD-check](https://github.com/trevorld/pnp.dominoes/actions/workflows/R-CMD-check.yaml/badge.svg?branch=main)](https://github.com/trevorld/pnp.dominoes/actions)
+[![codecov](https://codecov.io/github/trevorld/pnp.dominoes/branch/main/graph/badge.svg)](https://app.codecov.io/github/trevorld/pnp.dominoes)
+[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+
+### Table of Contents
+
+* [Overview](#overview)
+* [Installation](#installation)
+* [Examples](#examples)
+* [Related links](#related)
+
+## <a name="overview">Overview</a>
+
+`{pnp.dominoes}` generates print-and-play pdfs of (up to double-18) dominoes for letter and A4 paper.
+
+* `save_domino_pnp_12()` saves a double-twelve set (91 tiles) on three sheets of tiles:
+  the first sheet is a double-six set and the first two sheets contain a double-nine set.
+* `save_domino_pnp_18()` saves a double-eighteen set (190 tiles) on six sheets of tiles:
+  the first four sheets are a double-fifteen set.
+* Tiles are 1" by 2" with a 1/8" bleed around each group of tiles.
+  Crop marks in the margins indicate the cut lines and
+  crosshairs (in the pip color) mark the tile corners on the faces.
+* The first page is a cover page with credits, license, and instructions followed by a deliberately blank page.
+  The remaining odd pages are the tile faces and the even pages are the tile backs.
+  Registration marks on both sides help check that double-sided prints line up.
+* The print-and-play pdfs are licensed under [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/).
+
+## <a name="installation">Installation</a>
+
+```{r install, eval = FALSE}
+remotes::install_github("trevorld/pnp.dominoes")
+```
+
+## <a name="examples">Examples</a>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(fig.path = "man/figures/README-", dpi = 150, error = FALSE)
+has_pnpmisc <- requireNamespace("pnpmisc", quietly = TRUE)
+```
+
+```{r save}
+library("pnp.dominoes")
+f12 <- save_domino_pnp_12(tempfile(fileext = ".pdf"))
+f18 <- save_domino_pnp_18(
+  tempfile(fileext = ".pdf"),
+  paper = "a4",
+  background_color = "black",
+  pip_color = "white"
+)
+```
+
+The third page of the pdf is the faces of the first sheet of tiles (a double-six set).
+We can render it with [{pnpmisc}](https://github.com/trevorld/pnpmisc):
+
+```{r double12-faces, eval = has_pnpmisc, fig.width = 8.5, fig.height = 11, fig.cap = "The faces of the first sheet of a double-twelve set of dominoes: a double-six set of 28 tiles laid out in four rows of seven with crop marks in the margins."}
+grid::grid.raster(pnpmisc::pdf_render_raster(f12, page = 3L, dpi = 150))
+```
+
+```{r cleanup, include = FALSE}
+unlink(c(f12, f18))
+```
+
+## <a name="related">Related links</a>
+
+* [{piecepackr}](https://github.com/piecepackr/piecepackr) draws the domino tiles.
+* [{pnpmisc}](https://github.com/trevorld/pnpmisc) has functions to edit print-and-play pdfs.

@@ -22,6 +22,7 @@ Imports:
 	utils,
 	xmpdf
 Suggests:
+	pnpmisc,
 	testthat (>= 3.0.0)
 Remotes: piecepackr/ppdf, trevorld/piecepackr
 License: MIT + file LICENSE
