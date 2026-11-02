@@ -41,3 +41,31 @@ test_that("save_domino_pnp_12() and save_domino_pnp_18() work", {
 	on.exit(unlink(f18), add = TRUE)
 	expect_equal(as.integer(xmpdf::n_pages(f18)), 14L)
 })
+
+test_that("save_domino_pnp_12() restores the active graphics device", {
+	f <- tempfile(fileext = ".pdf")
+	on.exit(unlink(f), add = TRUE)
+
+	# No device open beforehand: none left open afterwards
+	graphics.off()
+	save_domino_pnp_12(f)
+	expect_null(grDevices::dev.list())
+
+	# Two devices open, the lower numbered one active
+	grDevices::pdf(NULL)
+	d1 <- grDevices::dev.cur()
+	grDevices::pdf(NULL)
+	d2 <- grDevices::dev.cur()
+	on.exit(grDevices::dev.off(d2), add = TRUE)
+	on.exit(grDevices::dev.off(d1), add = TRUE)
+	grDevices::dev.set(d1)
+	save_domino_pnp_12(f)
+	expect_equal(grDevices::dev.cur(), d1)
+	expect_equal(grDevices::dev.list(), c(d1, d2), ignore_attr = TRUE)
+
+	# Error while drawing: temporary device closed and `d1` still active
+	# (R may warn "Killing locked device" when closing a device mid-draw)
+	suppressWarnings(expect_error(save_domino_pnp_12(f, background_color = "not a color")))
+	expect_equal(grDevices::dev.cur(), d1)
+	expect_equal(grDevices::dev.list(), c(d1, d2), ignore_attr = TRUE)
+})
