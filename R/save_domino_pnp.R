@@ -139,6 +139,10 @@ save_domino_pnp <- function(
 	)
 	cfg <- domino_cfg(background_color, pip_color)
 
+	# Don't leave a truncated pdf behind if drawing fails
+	# (runs after `with_temp_dev()`'s own exit handler has closed the device)
+	drawn <- FALSE
+	on.exit(if (!drawn) unlink(filename), add = TRUE)
 	# `cairo_pdf()` (unlike `pdf()`) embeds the fonts used by `marquee`
 	with_temp_dev(function() cairo_pdf(filename, width = width, height = height, onefile = TRUE), {
 		grid.newpage()
@@ -160,6 +164,7 @@ save_domino_pnp <- function(
 			grid_domino_back(background_color, layout)
 		}
 	})
+	drawn <- TRUE
 
 	# Set docinfo before xmp since (in some cases) setting docinfo with ghostscript clobbers xmp
 	if (supports_set_docinfo()) {

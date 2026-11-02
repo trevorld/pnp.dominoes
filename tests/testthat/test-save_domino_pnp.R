@@ -47,25 +47,36 @@ test_that("save_domino_pnp_12() restores the active graphics device", {
 	on.exit(unlink(f), add = TRUE)
 
 	# No device open beforehand: none left open afterwards
-	graphics.off()
-	save_domino_pnp_12(f)
-	expect_null(grDevices::dev.list())
+	# (only checked when no device is open, so we don't close the user's devices)
+	if (is.null(grDevices::dev.list())) {
+		save_domino_pnp_12(f)
+		expect_null(grDevices::dev.list())
+	}
 
 	# Two devices open, the lower numbered one active
 	grDevices::pdf(NULL)
 	d1 <- grDevices::dev.cur()
 	grDevices::pdf(NULL)
 	d2 <- grDevices::dev.cur()
-	on.exit(grDevices::dev.off(d2), add = TRUE)
-	on.exit(grDevices::dev.off(d1), add = TRUE)
+	close_dev <- function(d) if (d %in% grDevices::dev.list()) grDevices::dev.off(d)
+	on.exit(close_dev(d2), add = TRUE)
+	on.exit(close_dev(d1), add = TRUE)
 	grDevices::dev.set(d1)
 	save_domino_pnp_12(f)
 	expect_equal(grDevices::dev.cur(), d1)
 	expect_equal(grDevices::dev.list(), c(d1, d2), ignore_attr = TRUE)
 
 	# Error while drawing: temporary device closed and `d1` still active
-	# (R may warn "Killing locked device" when closing a device mid-draw)
-	suppressWarnings(expect_error(save_domino_pnp_12(f, background_color = "not a color")))
+	# R may give an (unclassed) "Killing locked device" warning when closing a device mid-draw
+	locked_msg <- gettext("Killing locked device", domain = "R-grDevices")
+	withCallingHandlers(
+		expect_error(save_domino_pnp_12(f, background_color = "not a color")),
+		warning = function(w) {
+			if (conditionMessage(w) == locked_msg) invokeRestart("muffleWarning")
+		}
+	)
 	expect_equal(grDevices::dev.cur(), d1)
 	expect_equal(grDevices::dev.list(), c(d1, d2), ignore_attr = TRUE)
+	# and no truncated pdf left behind
+	expect_false(file.exists(f))
 })
