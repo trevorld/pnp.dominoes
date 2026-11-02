@@ -139,31 +139,27 @@ save_domino_pnp <- function(
 	)
 	cfg <- domino_cfg(background_color, pip_color)
 
-	current_dev <- dev.cur()
-	if (current_dev > 1) {
-		on.exit(dev.set(current_dev), add = TRUE)
-	}
 	# `cairo_pdf()` (unlike `pdf()`) embeds the fonts used by `marquee`
-	cairo_pdf(filename, width = width, height = height, onefile = TRUE)
-	grid.newpage()
-	grid.draw(credits_grob(x, set_info, width))
-
-	# Deliberately blank:
-	# keeps the cover page from ending up printed on the back of the first sheet of tiles
-	# so that each sheet's faces and backs share a physical sheet under duplex printing.
-	grid.newpage()
-	grid.text("This page deliberately left blank.", gp = gpar(fontsize = 12))
-
-	for (i in seq_along(pages)) {
-		df <- pages[[i]]
-		# The last sheet has a different number of rows than the earlier sheets
-		layout <- domino_layout(nrow(df), paper, squared = i == length(pages))
+	with_temp_dev(function() cairo_pdf(filename, width = width, height = height, onefile = TRUE), {
 		grid.newpage()
-		grid_domino_front(df, cfg, background_color, pip_color, layout)
+		grid.draw(credits_grob(x, set_info, width))
+
+		# Deliberately blank:
+		# keeps the cover page from ending up printed on the back of the first sheet of tiles
+		# so that each sheet's faces and backs share a physical sheet under duplex printing.
 		grid.newpage()
-		grid_domino_back(background_color, layout)
-	}
-	dev.off()
+		grid.text("This page deliberately left blank.", gp = gpar(fontsize = 12))
+
+		for (i in seq_along(pages)) {
+			df <- pages[[i]]
+			# The last sheet has a different number of rows than the earlier sheets
+			layout <- domino_layout(nrow(df), paper, squared = i == length(pages))
+			grid.newpage()
+			grid_domino_front(df, cfg, background_color, pip_color, layout)
+			grid.newpage()
+			grid_domino_back(background_color, layout)
+		}
+	})
 
 	# Set docinfo before xmp since (in some cases) setting docinfo with ghostscript clobbers xmp
 	if (supports_set_docinfo()) {

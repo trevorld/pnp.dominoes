@@ -1,5 +1,5 @@
 #' @import grid
-#' @importFrom grDevices dev.cur dev.off dev.set cairo_pdf
+#' @importFrom grDevices cairo_pdf
 #' @importFrom grImport2 readPicture symbolsGrob
 #' @importFrom marquee classic_style em marquee_grob modify_style relative rem trbl
 #' @importFrom piecepackr game_systems pmap_piece pp_cfg
